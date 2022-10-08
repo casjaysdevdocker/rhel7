@@ -1,4 +1,4 @@
-FROM centos:7 AS build
+FROM --platform=linux/amd64 centos:7 AS build
 
 ARG LICENSE=WTFPL \
   IMAGE_NAME=rhel7 \

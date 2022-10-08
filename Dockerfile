@@ -13,11 +13,10 @@ ENV SHELL=/bin/bash \
   RPM_RELEASE_DIR="/data/release"
 
 RUN mkdir -p /bin/ /config/ /data/ && \
-  rm -Rf /bin/.gitkeep /config/.gitkeep /data/.gitkeep && \
   yum update -y && \
   yum install wget curl git -y && \
   yum clean all && \
-  rm -Rf /etc/yum.repos.d/*
+  rm -Rf /etc/yum.repos.d/* && \
   wget -q "https://github.com/rpm-devel/casjay-release/raw/main/casjay.rh.repo" -O "/etc/yum.repos.d/casjay.repo" && \
   yum update -y && \
   yum groupinstall "Development Tools" "RPM Development Tools" -y && \
@@ -27,6 +26,8 @@ COPY ./config/rpmmacros /root/.rpmmacros
 COPY ./bin/. /usr/local/bin/
 COPY ./config/. /config/
 COPY ./data/. /data/
+
+RUN rm -Rf /bin/.gitkeep /config/.gitkeep /data/.gitkeep
 
 FROM scratch
 ARG BUILD_DATE="$(date +'%Y-%m-%d %H:%M')"
